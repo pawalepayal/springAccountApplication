@@ -2,6 +2,16 @@ package com.example.entities;
 
 public class Account {
     private int id;
+
+    public String getAccountHolderName() {
+        return accountHolderName;
+    }
+
+    public void setAccountHolderName(String accountHolderName) {
+        this.accountHolderName = accountHolderName;
+    }
+
+    private long accountNumber;
     private String accountHolderName;
     private String branch ;
     private long mobileNumber;
