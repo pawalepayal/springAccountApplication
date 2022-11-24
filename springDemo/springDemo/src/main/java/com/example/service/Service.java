@@ -14,7 +14,7 @@ public class Service implements ServiceImpl {
         accountList.add(new Account(56765, "Shivangi", "Delhi",914563578));
         accountList.add(new Account(12785, "Raj", "Mumbai",568799481));
         accountList.add(new Account(89755, "Sita", "Nashik",999998891));
-
+        accountList.add(new Account(8755, "abc", "xyz",998891));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Service implements ServiceImpl {
         return emp;
     }
 
-    @Override
+
     public Account updateAccount(int accountId, Account account) {
         Account emp = null;
         for (Account account1 : accountList) {
