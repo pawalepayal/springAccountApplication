@@ -13,32 +13,32 @@ public class MyController {
     @Autowired
     private ServiceImpl serviceImpl;
 
-    @RequestMapping("/home")
+    @RequestMapping("/Home")
     public String home() {
         return "welcome..";
     }
 
-    @GetMapping("/account")
+    @GetMapping("/Account")
     public List<Account> getAccounts() {
         return this.serviceImpl.getAccounts();
     }
 
-    @GetMapping("/account/{accountId}")
+    @GetMapping("/Account/{accountId}")
     public Account getAccount(@PathVariable String accountId) {
         return this.serviceImpl.getAccount(Integer.parseInt(accountId));
     }
 
-    @PostMapping("/account")
+    @PostMapping("/Account")
     public Account addAccount(@RequestBody Account account) {
         return this.serviceImpl.addAccount(account);
     }
 
-    @PutMapping("/account/{accountId}")
+    @PutMapping("/Account/{accountId}")
     public Account updateAccount(@PathVariable int accountId, @RequestBody Account account) {
         return this.serviceImpl.updateAccount(accountId, account);
     }
 
-    @DeleteMapping("/account/{accountId}")
+    @DeleteMapping("/Account/{accountId}")
     public Account deleteAccount(@PathVariable String accountId) {
         return this.serviceImpl.deleteAccount(Integer.parseInt(accountId));
     }
