@@ -33,7 +33,7 @@ public class MyController {
         return this.serviceImpl.addAccount(account);
     }
 
-    @PutMapping("/Account/{accountId}")
+    @PutMapping("/account/{accountId}")
     public Account updateAccount(@PathVariable int accountId, @RequestBody Account account) {
         return this.serviceImpl.updateAccount(accountId, account);
     }
