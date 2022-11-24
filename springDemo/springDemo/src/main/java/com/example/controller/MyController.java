@@ -28,7 +28,7 @@ public class MyController {
         return this.serviceImpl.getAccount(Integer.parseInt(accountId));
     }
 
-    @PostMapping("/account")
+    @PostMapping("/account") //to add
     public Account addAccount(@RequestBody Account account) {
         return this.serviceImpl.addAccount(account);
     }

@@ -5,6 +5,17 @@ public class Account {
     private String accountHolderName;
     private String branch ;
     private long mobileNumber;
+    private long accountBalance;
+
+
+    public long getAccountBalance() {
+        return accountBalance;
+    }
+
+    public void setAccountBalance(long accountBalance) {
+        this.accountBalance = accountBalance;
+    }
+
 
     public int getId() {
         return id;
@@ -35,11 +46,12 @@ public class Account {
     }
 
 
-    public Account(int id, String accountHolderName, String branch, long mobileNumber) {
+    public Account(int id, String accountHolderName, String branch, long mobileNumber, long accountBalance) {
         this.id = id;
         this.accountHolderName = accountHolderName;
         this.branch = branch;
         this.mobileNumber = mobileNumber;
+        this.accountBalance=accountBalance;
     }
     public Account() {
     }
@@ -50,6 +62,8 @@ public class Account {
                 ", accountHolderName='" + accountHolderName + '\'' +
                 ", branch='" + branch + '\'' +
                 ", mobileNumber=" + mobileNumber +
+                ", accountBalance=" + accountBalance +
+
                 '}';
     }
 
