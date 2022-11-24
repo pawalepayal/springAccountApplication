@@ -6,12 +6,6 @@ public class Account {
     private String branch ;
     private long mobileNumber;
 
-    public String getAccountHolderName() {
-        return accountHolderName;
-    }
-    public void setAccountHolderName(String accountHolderName) {
-        this.accountHolderName = accountHolderName;
-    }
     public int getId() {
         return id;
     }

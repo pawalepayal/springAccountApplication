@@ -15,11 +15,12 @@ public class MyController {
 
     @RequestMapping("/home")
     public String home() {
-        return "welcome..";
+        return "welcome";
     }
 
     @GetMapping("/account")
     public List<Account> getAccounts() {
+
         return this.serviceImpl.getAccounts();
     }
 
@@ -28,8 +29,10 @@ public class MyController {
         return this.serviceImpl.getAccount(Integer.parseInt(accountId));
     }
 
+
     @PostMapping("/account")
     public Account addAccount(@RequestBody Account account) {
+
         return this.serviceImpl.addAccount(account);
     }
 
