@@ -38,7 +38,7 @@ public class MyController {
         return this.serviceImpl.updateAccount(accountId, account);
     }
 
-    @DeleteMapping("/Account/{accountId}")
+    @DeleteMapping("/account/{accountId}")
     public Account deleteAccount(@PathVariable String accountId) {
         return this.serviceImpl.deleteAccount(Integer.parseInt(accountId));
     }

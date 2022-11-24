@@ -19,6 +19,7 @@ public class Service implements ServiceImpl {
 
     @Override
     public List<Account> getAccounts() {
+
         return accountList;
     }
 
@@ -56,7 +57,6 @@ public class Service implements ServiceImpl {
     @Override
     public Account updateAccount(int accountId, Account account) {
         Account emp = null;
-        Account result = getAccount(accountId);
         for (Account account1 : accountList) {
             if (account1.getId() == accountId) {
                 account1.setaccountHolderName(account.getaccountHolderName());
