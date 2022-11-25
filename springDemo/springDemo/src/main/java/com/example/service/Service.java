@@ -42,8 +42,13 @@ public class Service implements ServiceImpl {
         long mobileNumber= account.getMobileNumber();
         String phoneNumber = String.valueOf(mobileNumber);
 
-        if (phoneNumber.length() == 10) {
+        long accountNumber = account.getAccountNumber();
+         String accountId = String.valueOf(accountNumber);
+
+
+        if (phoneNumber.length() == 10 && accountId.length()==14 ) {
             account.setMobileNumber(mobileNumber);
+            account.setAccountNumber(accountNumber);
         } else {
             System.out.println("Invalid data");
             System.exit(0);
