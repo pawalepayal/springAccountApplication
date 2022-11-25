@@ -1,6 +1,5 @@
 package com.example.entities;
 
-import com.sun.istack.internal.NotNull;
 
 public class Account {
     private long accountNumber;
@@ -22,8 +21,6 @@ public class Account {
     public void setaccountHolderName(String accountHolderName) {
         this.accountHolderName = accountHolderName;
     }
-
-
 
 
     public long getAccountBalance() {
