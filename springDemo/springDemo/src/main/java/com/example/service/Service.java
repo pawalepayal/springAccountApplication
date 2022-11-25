@@ -14,7 +14,7 @@ public class Service implements ServiceImpl {
         accountList.add(new Account(56765, "Shivangi", "Delhi",914563578,40000));
         accountList.add(new Account(12785, "Raj", "Mumbai",568799481,34000));
         accountList.add(new Account(89755, "Sita", "Nashik",999998891,56000));
-        accountList.add(new Account(8755, "abc", "xyz",998891,12000));
+        accountList.add(new Account(8755, "Shyam", "Lonavala",9900891,12000));
     }
 
     @Override
