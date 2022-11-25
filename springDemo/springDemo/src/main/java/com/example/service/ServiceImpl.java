@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface ServiceImpl {
     public List<Account> getAccounts();
-    Account getAccount(int accountId);
-    public Account addAccount(Account account);
-    Account deleteAccount(int accountId);
-    Account updateAccount(int accountId,Account account);
+
+    Account getAccount(long accountNumber);
+
+    public List<Account> addAccount(Account account);
+    String deleteAccount(long accountNumber);
+    Account updateAccount(long accountNumber,Account account);
 }

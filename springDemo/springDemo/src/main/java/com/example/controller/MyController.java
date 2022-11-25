@@ -23,25 +23,25 @@ public class MyController {
         return this.serviceImpl.getAccounts();
     }
 
-    @GetMapping("/account/{accountId}")
+    @GetMapping("/account/get/{accountId}")
     public Account getAccount(@PathVariable String accountId) {
         return this.serviceImpl.getAccount(Integer.parseInt(accountId));
     }
 
-    @PostMapping("/account") //to add
-    public Account addAccount(@RequestBody Account account) {
+    @PostMapping("/account/add") //to add
+    public List<Account> addAccount(@RequestBody Account account) {
 
         return this.serviceImpl.addAccount(account);
     }
 
-    @PutMapping("/account/{accountId}")//to update
-    public Account updateAccount(@PathVariable int accountId, @RequestBody Account account) {
-        return this.serviceImpl.updateAccount(accountId, account);
+    @PutMapping("/account/update/{accountNumber}")//to update
+    public Account updateAccount(@PathVariable long accountNumber, @RequestBody Account account) {
+        return this.serviceImpl.updateAccount(accountNumber, account);
     }
 
-    @DeleteMapping("/account/{accountId}")
-    public Account deleteAccount(@PathVariable String accountId) {
-        return this.serviceImpl.deleteAccount(Integer.parseInt(accountId));
+    @DeleteMapping("/account/delete/{accountNumber}")
+    public  String deleteAccount(@PathVariable long accountNumber) {
+        return this.serviceImpl.deleteAccount(accountNumber);
     }
 
 }
