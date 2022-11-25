@@ -1,11 +1,27 @@
 package com.example.entities;
 
 public class Account {
-    private int id;
+    private long accountNumber;
     private String accountHolderName;
     private String branch ;
     private long mobileNumber;
     private long accountBalance;
+
+    public long getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(long accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+    public String getaccountHolderName() {
+        return accountHolderName;
+    }
+    public void setaccountHolderName(String accountHolderName) {
+        this.accountHolderName = accountHolderName;
+    }
+
+
 
 
     public long getAccountBalance() {
@@ -17,19 +33,6 @@ public class Account {
     }
 
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getaccountHolderName() {
-        return accountHolderName;
-    }
-    public void setaccountHolderName(String accountHolderName) {
-        this.accountHolderName = accountHolderName;
-    }
 
     public String getBranch() {
         return branch;
@@ -46,8 +49,8 @@ public class Account {
     }
 
 
-    public Account(int id, String accountHolderName, String branch, long mobileNumber, long accountBalance) {
-        this.id = id;
+    public Account(long accountNumber, String accountHolderName, String branch, long mobileNumber, long accountBalance) {
+        this.accountNumber = accountNumber;
         this.accountHolderName = accountHolderName;
         this.branch = branch;
         this.mobileNumber = mobileNumber;
@@ -58,7 +61,7 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "id=" + id +
+                "accountNumber=" + accountNumber +
                 ", accountHolderName='" + accountHolderName + '\'' +
                 ", branch='" + branch + '\'' +
                 ", mobileNumber=" + mobileNumber +

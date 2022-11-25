@@ -27,7 +27,7 @@ public class Service implements ServiceImpl {
     public Account getAccount(int accountId) {
         Account emp = null;
         for (Account account : accountList) {
-            if (account.getId() == accountId) {
+            if (account.getAccountNumber() == accountId) {
                 emp = account;
                 break;
             }
@@ -45,7 +45,7 @@ public class Service implements ServiceImpl {
     public Account deleteAccount(int accountId) {
         Account emp = null;
         for (Account account : accountList) {
-            if (account.getId() == accountId) {
+            if (account.getAccountNumber() == accountId) {
                 emp = account;
                 accountList.remove(account);
                 break;
@@ -58,12 +58,12 @@ public class Service implements ServiceImpl {
     public Account updateAccount(int accountId, Account account) {
         Account emp = null;
         for (Account account1 : accountList) {
-            if (account1.getId() == accountId) {
+            if (account1.getAccountNumber() == accountId) {
                 account1.setaccountHolderName(account.getaccountHolderName());
                 account1.setBranch(account.getBranch());
                 account1.setMobileNumber(account.getMobileNumber());
                 account1.setAccountBalance(account.getAccountBalance());
-                account1.setId(accountId);
+                account1.setAccountNumber(accountId);
                 emp = account1;
                 break;
             }
