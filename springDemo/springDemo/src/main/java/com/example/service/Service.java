@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.entities.Account;
+import com.example.exception.DataNotFoundException;
 import com.example.exception.InvalidEntryException;
 
 import java.util.ArrayList;
@@ -78,16 +79,33 @@ public class Service implements ServiceImpl {
 
     @Override
     public String deleteAccount(long accountNumber) {
-        //Account account = null;
+    String accountNum =String.valueOf(accountNumber);
+     String result=null;
+     Account accountobj=new Account();
+
+    try {
+        if (accountNum.length() != 14) {
+            throw new InvalidEntryException("enter valid account number");
+        }
         for (Account account : accountList) {
             if (account.getAccountNumber() == accountNumber) {
-                //account = accountObj;
-                accountList.remove(account);
-                break;
+              //  accountList.remove(account);
+               accountobj=account;
+                result="found";
             }
         }
-        return "Deleted";
+        if(result==null){
+            throw new DataNotFoundException("data for this account number not found");
+        }
     }
+    catch(DataNotFoundException | InvalidEntryException e){
+        return e.getMessage();
+    }
+    accountList.remove(accountobj);
+    return "Deleted successfully";
+
+
+}
 
 
     public Account updateAccount(long accountNumber, Account account) {
