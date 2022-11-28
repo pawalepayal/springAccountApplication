@@ -1,7 +1,7 @@
 package com.example.service;
 
 import com.example.entities.Account;
-import com.example.exception.AccountException;
+import com.example.exception.InvalidEntryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +49,29 @@ public class Service implements ServiceImpl {
         String accountId = String.valueOf(accountNumber);
 
         try {
-            if ((phoneNumber.length() == 10) && (accountId.length() == 14) && (account.getaccountHolderName().length() > 4)) {
-//            account.setMobileNumber(mobileNumber);
-//            account.setAccountNumber(accountNumber);
+//            if ((phoneNumber.length() == 10) && (accountId.length() == 14) && (account.getaccountHolderName().length() > 4)) {
+////            account.setMobileNumber(mobileNumber);
+////            account.setAccountNumber(accountNumber);
+//                accountList.add(account);
+//            }else
+//                throw new AccountException();
+//            }catch(AccountException e){
+//                e.printStackTrace();
+//            }
+
+            if (phoneNumber.length() != 10) {
+                throw new InvalidEntryException("Phone number must be a 10 digit long");
+            }
+            if(accountId.length()!= 14){
+                throw new InvalidEntryException("Accont number length must be a 14 digit long");
+            }
+            if(!(account.getaccountHolderName().length() > 4)){
+                throw new InvalidEntryException("Accont Holder name length should  be more than 4 letter");
+            }
+            else
                 accountList.add(account);
-            }else
-                throw new AccountException();
-            }catch(AccountException e){
-                e.printStackTrace();
+            } catch(InvalidEntryException e){
+                System.out.println(e.getMessage());
             }
             return accountList;
         }
