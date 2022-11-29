@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.entities.Account;
-import com.example.service.ServiceImpl;
+import com.example.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class MyController {
 
     @Autowired
-    private ServiceImpl serviceImpl;
+    private Service service;
 
     @RequestMapping("/home")
     public String home() {
@@ -20,28 +20,28 @@ public class MyController {
 
     @GetMapping("/account")
     public List<Account> getAccounts() {
-        return this.serviceImpl.getAccounts();
+        return this.service.getAccounts();
     }
 
     @GetMapping("/account/get/{accountId}")
     public Account getAccount(@PathVariable String accountId) {
-        return this.serviceImpl.getAccount(Integer.parseInt(accountId));
+        return this.service.getAccount(Integer.parseInt(accountId));
     }
 
     @PostMapping("/account/add") //to add
     public List<Account> addAccount(@RequestBody Account account) {
 
-        return this.serviceImpl.addAccount(account);
+        return this.service.addAccount(account);
     }
 
     @PutMapping("/account/update/{accountNumber}")//to update
     public Account updateAccount(@PathVariable long accountNumber, @RequestBody Account account) {
-        return this.serviceImpl.updateAccount(accountNumber, account);
+        return this.service.updateAccount(accountNumber, account);
     }
 
     @DeleteMapping("/account/delete/{accountNumber}")
     public  String deleteAccount(@PathVariable long accountNumber) {
-        return this.serviceImpl.deleteAccount(accountNumber);
+        return this.service.deleteAccount(accountNumber);
     }
 
 }
