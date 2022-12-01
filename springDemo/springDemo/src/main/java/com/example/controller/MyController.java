@@ -30,7 +30,7 @@ public class MyController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/account/get")
     public List<Account> getAllAccounts() {
-        logger.info("list of accounts");
+        logger.info("list of all accounts");
         return service.getAllAccounts();
     }
 
@@ -38,28 +38,28 @@ public class MyController {
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/account/get/{accountNumber}")
     public Account getAccountByAccountNumber(@PathVariable long accountNumber) throws InvalidEntryException {
-        logger.info("Account for given id ");
+        logger.info(" Fetching account for given id ");
         return service.getAccountByAccountNumber(accountNumber);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/account/add")
     public String addAccount(@RequestBody Account account) throws InvalidEntryException {
-        logger.info("Account added");
+        logger.info("Account added successfully");
         return service.addAccount(account);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/account/update/{accountNumber}")
     public String updateAccount(@PathVariable long accountNumber, @RequestBody Account account) {
-        logger.info("Account updated");
+        logger.info("Account updated successfully");
         return service.updateAccount(accountNumber, account);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping("/account/delete/{accountNumber}")
     public String deleteAccount(@PathVariable long accountNumber) throws DataNotFoundException {
-        logger.info("Account deleted");
+        logger.info("Account deleted successfully");
         return service.deleteAccount(accountNumber);
     }
 
