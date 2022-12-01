@@ -4,6 +4,8 @@ import com.example.entities.Account;
 import com.example.exception.DataNotFoundException;
 import com.example.exception.EmptyListException;
 import com.example.exception.InvalidEntryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +13,22 @@ import java.util.List;
 @org.springframework.stereotype.Service
 public class ServiceImpl implements Service {
     List<Account> accountList = new ArrayList<>();
+    Logger logger = LoggerFactory.getLogger(ServiceImpl.class);
+
 
     @Override
     public List<Account> getAllAccounts() throws EmptyListException {
+        logger.info("method start");
         if(accountList.isEmpty()){
             throw  new EmptyListException("List is empty");
         }
+        logger.info("List displayed");
         return accountList;
     }
 
     @Override
     public Account getAccountByAccountNumber(long accountNumber) throws InvalidEntryException {
+        logger.info(" method start");
         Account account = null;
         for (Account accountObj : accountList) {
             if (accountObj.getAccountNumber() == accountNumber) {
@@ -30,6 +37,7 @@ public class ServiceImpl implements Service {
             }else
                 throw new InvalidEntryException("Invalid Account Number");
         }
+        logger.info("Account found");
         return account;
     }
 
@@ -41,9 +49,10 @@ public class ServiceImpl implements Service {
 //
 //        long accountNumber = account.getAccountNumber();
 //        String accountId = String.valueOf(accountNumber);
-
+        logger.info("Add method start");
         String accountNumber =String.valueOf(account.getAccountNumber());
         String mobileNumber=String.valueOf(account.getMobileNumber());
+
             for(Account accountObj:accountList){
                 if (account.getAccountNumber() == accountObj.getAccountNumber())
                     throw new InvalidEntryException("Account Data is already exist");
@@ -59,14 +68,14 @@ public class ServiceImpl implements Service {
                 throw new InvalidEntryException("Accont Holder name length should  be more than 4 letter");
             } else
                 accountList.add(account);
-
+        logger.info("account added.");
         return "Added Successfully";
     }
 
     @Override
     public String deleteAccount(long accountNumber) throws DataNotFoundException {
        // String accountNum = String.valueOf(accountNumber);
-
+        logger.info("method started.");
         for (Account account : accountList) {
             if (account.getAccountNumber() == accountNumber) {
                 accountList.remove(account);
@@ -74,12 +83,14 @@ public class ServiceImpl implements Service {
             } else
                 throw new DataNotFoundException("data for this account number not found");
         }
+        logger.info("account deleted.");
         return "Deleted successfully";
 
     }
 
 
     public String updateAccount(long accountNumber, Account account) throws InvalidEntryException {
+        logger.info("method started.");
         for (Account account1 : accountList) {
             if (account1.getAccountNumber() == accountNumber) {
                 account1.setAccountNumber((account.getAccountNumber()));
@@ -95,6 +106,7 @@ public class ServiceImpl implements Service {
             }
 
         }
+        logger.info("account updated.");
         return "Updated successfully";
     }
 
