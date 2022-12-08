@@ -10,4 +10,9 @@ class SpringDemoApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void addAccount(){
+
+	}
+
 }
