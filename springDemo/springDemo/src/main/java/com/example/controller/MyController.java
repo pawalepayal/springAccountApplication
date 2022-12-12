@@ -14,8 +14,6 @@ import java.util.List;
 @RestController
 public class MyController {
 
-
-
     @Autowired
     private Service service;
 
@@ -41,13 +39,13 @@ public class MyController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/account/add")
-    public String addAccount(@RequestBody Account account) throws InvalidEntryException {
+    public Account addAccount(@RequestBody Account account) throws InvalidEntryException {
         return service.addAccount(account);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/account/update/{accountNumber}")
-    public String updateAccount(@PathVariable long accountNumber, @RequestBody Account account) {
+    public Account updateAccount(@PathVariable long accountNumber, @RequestBody Account account) {
         return service.updateAccount(accountNumber, account);
     }
 

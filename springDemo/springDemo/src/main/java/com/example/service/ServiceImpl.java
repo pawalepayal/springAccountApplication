@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.entities.Account;
+import com.example.exception.AccountAlreadyExistException;
 import com.example.exception.DataNotFoundException;
 import com.example.exception.EmptyListException;
 import com.example.exception.InvalidEntryException;
@@ -15,66 +16,61 @@ public class ServiceImpl implements Service {
     List<Account> accountList = new ArrayList<>();
     Logger logger = LoggerFactory.getLogger(ServiceImpl.class);
 
-
     @Override
-    public List<Account> getAllAccounts() throws EmptyListException {
+    public List<Account> getAllAccounts()  {
         logger.info("method start");
-        if(accountList.isEmpty()){
-            throw  new EmptyListException("List is empty");
+        if (accountList.isEmpty()) {
+            throw new EmptyListException("List is empty");
         }
         logger.info("List displayed");
         return accountList;
     }
 
     @Override
-    public Account getAccountByAccountNumber(long accountNumber) throws InvalidEntryException {
+    public Account getAccountByAccountNumber(long accountNumber)  {
         logger.info(" method start");
-        Account account = null;
-        for (Account accountObj : accountList) {
-            if (accountObj.getAccountNumber() == accountNumber) {
-                account = accountObj;
-                break;
-            }else
-                throw new InvalidEntryException("Invalid Account Number");
+       // Account account = null;
+        for (Account account : accountList) {
+            if (account.getAccountNumber() == accountNumber) {
+                logger.info("Account Found");
+                return account;
+            }
+               // throw new InvalidEntryException("Invalid Account Number");
         }
-        logger.info("Account found");
+        throw new DataNotFoundException("Account not present");
+       // return account;
+    }
+
+    @Override
+    public Account addAccount(Account account)  {
+
+        logger.info("Add method start");
+        String accountNumber = String.valueOf(account.getAccountNumber());
+        String mobileNumber = String.valueOf(account.getMobileNumber());
+
+        for (Account accountObj : accountList) {
+            if (account.getAccountNumber() == accountObj.getAccountNumber())
+                throw new AccountAlreadyExistException("Account Data is already exist");
+        }
+
+        if (mobileNumber.length() != 10) {
+            throw new InvalidEntryException("Phone number must be a 10 digit long");
+        }
+        if (accountNumber.length() != 14) {
+            throw new InvalidEntryException("Accont number length must be a 14 digit long");
+        }
+        if (!(account.getaccountHolderName().length() > 4)) {
+            throw new InvalidEntryException("Accont Holder name length should  be more than 4 letter");
+        } else
+
+            accountList.add(account);
+        logger.info("account added.");
         return account;
     }
 
     @Override
-    public String addAccount(Account account) throws InvalidEntryException{
-
-//        long mobileNumber = account.getMobileNumber();
-//        String phoneNumber = String.valueOf(mobileNumber);
-//
-//        long accountNumber = account.getAccountNumber();
-//        String accountId = String.valueOf(accountNumber);
-        logger.info("Add method start");
-        String accountNumber =String.valueOf(account.getAccountNumber());
-        String mobileNumber=String.valueOf(account.getMobileNumber());
-
-            for(Account accountObj:accountList){
-                if (account.getAccountNumber() == accountObj.getAccountNumber())
-                    throw new InvalidEntryException("Account Data is already exist");
-            }
-
-            if (mobileNumber.length() != 10) {
-                throw new InvalidEntryException("Phone number must be a 10 digit long");
-            }
-            if (accountNumber.length() != 14) {
-                throw new InvalidEntryException("Accont number length must be a 14 digit long");
-            }
-            if (!(account.getaccountHolderName().length() > 4)) {
-                throw new InvalidEntryException("Accont Holder name length should  be more than 4 letter");
-            } else
-                accountList.add(account);
-        logger.info("account added.");
-        return "Added Successfully";
-    }
-
-    @Override
-    public String deleteAccount(long accountNumber) throws DataNotFoundException {
-       // String accountNum = String.valueOf(accountNumber);
+    public String deleteAccount(long accountNumber) {
+        // String accountNum = String.valueOf(accountNumber);
         logger.info("method started.");
         for (Account account : accountList) {
             if (account.getAccountNumber() == accountNumber) {
@@ -89,7 +85,7 @@ public class ServiceImpl implements Service {
     }
 
 
-    public String updateAccount(long accountNumber, Account account) throws InvalidEntryException {
+    public Account updateAccount(long accountNumber, Account account) throws InvalidEntryException {
         logger.info("method started.");
         for (Account account1 : accountList) {
             if (account1.getAccountNumber() == accountNumber) {
@@ -100,14 +96,20 @@ public class ServiceImpl implements Service {
                 account1.setAccountBalance(account.getAccountBalance());
                 account1.setAccountNumber(accountNumber);
                 break;
-            }
-            else{
+            } else {
                 throw new InvalidEntryException("Invalid Account number");
             }
 
         }
         logger.info("account updated.");
-        return "Updated successfully";
+        return account;
+    }
+
+    public void uniqueCheck(long accountNumber){
+        for(Account account: getAllAccounts()){
+            if(account.getAccountNumber()==accountNumber)
+                throw new AccountAlreadyExistException("Account Already Exist");
+        }
     }
 
 }

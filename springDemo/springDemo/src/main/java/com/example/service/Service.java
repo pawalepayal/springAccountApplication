@@ -7,13 +7,13 @@ import com.example.exception.InvalidEntryException;
 import java.util.List;
 
 public interface Service {
+
     public List<Account> getAllAccounts();
+    Account addAccount(Account account);
 
-    Account getAccountByAccountNumber(long accountNumber) throws InvalidEntryException;
+    Account getAccountByAccountNumber(long accountNumber) ;
 
-    String addAccount(Account account) throws InvalidEntryException;
+    String deleteAccount(long accountNumber);
 
-    String deleteAccount(long accountNumber) throws DataNotFoundException;
-
-    String updateAccount(long accountNumber, Account account);
+    Account updateAccount(long accountNumber, Account account);
 }
