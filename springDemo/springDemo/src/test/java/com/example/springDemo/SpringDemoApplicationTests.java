@@ -35,7 +35,7 @@ class SpringDemoApplicationTests {
 
 	@Test
 	@Order(1)
-	void testAddAccount(){
+	void getAddAccountTest(){
 		//Account account= new Account(12345678909875L,"Payal","Pune",9876543212L,250000L);
 		Account actual= service.addAccount(account);
 		Account expected=service.getAccountByAccountNumber(account.getAccountNumber());
@@ -76,7 +76,21 @@ class SpringDemoApplicationTests {
 
 
 	@Test
-	void  getAccountByAccountNumberTest()  {
+	void updateAccountTest(){
+
+		account.setAccountNumber(12345678912345L);
+		service.addAccount(account);
+		account.setaccountHolderName("Ramesh");
+		Account actual= service.updateAccount(account.getAccountNumber(),account);
+		Account expected=service.getAccountByAccountNumber(account.getAccountNumber());
+		assertEquals(expected,actual);
+		assertThrows(InvalidEntryException.class,()->service.updateAccount(123456789128L,account),"Account number is not valid");
+
+
+	}
+
+	@Test
+	void  testGetAccountByAccountNumber() {
 		account.setAccountNumber(96993108071234l);
 		service.addAccount(account);
 		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
