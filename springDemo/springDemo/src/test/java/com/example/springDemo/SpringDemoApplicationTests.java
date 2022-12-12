@@ -2,6 +2,7 @@ package com.example.springDemo;
 
 import com.example.entities.Account;
 import com.example.exception.AccountAlreadyExistException;
+import com.example.exception.DataNotFoundException;
 import com.example.exception.InvalidEntryException;
 import com.example.service.Service;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,6 +75,16 @@ class SpringDemoApplicationTests {
 
 	void testInvalidDataForUpdateAccount(){
 
+	}
+
+	@Test
+	void  testGetAccountByAccountNumber() throws DataNotFoundException {
+		account.setAccountNumber(96993108071234l);
+		service.addAccount(account);
+		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
+		Account actual = service.getAccountByAccountNumber(account.getAccountNumber());
+		assertEquals(expected, actual);
+		assertThrows(DataNotFoundException.class, () -> service.getAccountByAccountNumber(96900108071234l), "Account not present");
 	}
 
 
