@@ -54,17 +54,20 @@ public class ServiceImpl implements Service {
         }
 
         if (mobileNumber.length() != 10) {
+            logger.info("Mobile no. length is not 10 digit");
             throw new InvalidEntryException("Phone number must be a 10 digit long");
         }
         if (accountNumber.length() != 14) {
+            logger.info("Account number length is not 14 digit");
             throw new InvalidEntryException("Accont number length must be a 14 digit long");
         }
         if (!(account.getaccountHolderName().length() > 4)) {
+            logger.info("Account holder name length is less than 4 letter");
             throw new InvalidEntryException("Accont Holder name length should  be more than 4 letter");
         } else
 
             accountList.add(account);
-        logger.info("account added.");
+        logger.info("account added "+account);
         return account;
     }
 
