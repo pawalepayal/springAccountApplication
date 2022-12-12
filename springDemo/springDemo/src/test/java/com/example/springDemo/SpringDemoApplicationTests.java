@@ -73,12 +73,10 @@ class SpringDemoApplicationTests {
 
 	}
 
-	void testInvalidDataForUpdateAccount(){
 
-	}
 
 	@Test
-	void  testGetAccountByAccountNumber() throws DataNotFoundException {
+	void  getAccountByAccountNumberTest()  {
 		account.setAccountNumber(96993108071234l);
 		service.addAccount(account);
 		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
