@@ -17,8 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -39,8 +38,8 @@ class SpringDemoApplicationTests {
 	MyController controller;
 
 	@BeforeEach
-	public void setUp(){
-		account =new Account();
+	public void setUp() {
+		account = new Account();
 		account.setAccountNumber(12345678912345L);
 		account.setaccountHolderName("Payal");
 		account.setBranch("Pune");
@@ -51,60 +50,60 @@ class SpringDemoApplicationTests {
 
 	@Test
 	@Order(1)
-	void addAccountTest(){
-		Account actual= service.addAccount(account);
-		Account expected=service.getAccountByAccountNumber(account.getAccountNumber());
+	void addAccountTest() {
+		Account actual = service.addAccount(account);
+		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
 
-		assertEquals(expected,actual);
+		assertEquals(expected, actual);
 
 	}
 
 	@Test
 	@Order(2)
-	void accountNumberAlreadyPresentForAddTest(){
-	account.setAccountNumber(98865432198765L);
-	service.addAccount(account);
+	void accountNumberAlreadyPresentForAddTest() {
+		account.setAccountNumber(98865432198765L);
+		service.addAccount(account);
 
-	assertThrows(AccountAlreadyExistException.class,()->service.addAccount(account),
-			"Account already Exist");
+		assertThrows(AccountAlreadyExistException.class, () -> service.addAccount(account),
+				"Account already Exist");
 	}
 
 
 	@Test
-	void invalidDataForAddAccountTest(){
+	void invalidDataForAddAccountTest() {
 
 		account.setAccountNumber(567898765432L);  //less than 14 digit
-		assertThrows(InvalidEntryException.class,()->service.addAccount(account),"Account Number must be 14 digt long");
+		assertThrows(InvalidEntryException.class, () -> service.addAccount(account), "Account Number must be 14 digt long");
 
 		account.setAccountNumber(98765412345678L);
 		account.setaccountHolderName("Raj");
-		assertThrows(InvalidEntryException.class,()->service.addAccount(account),
+		assertThrows(InvalidEntryException.class, () -> service.addAccount(account),
 				"Account Holder name length should be more than 4 letters ");
 
 		account.setaccountHolderName("Payal");
 		account.setMobileNumber(98765432L);
-		assertThrows(InvalidEntryException.class,()-> service.addAccount(account),
+		assertThrows(InvalidEntryException.class, () -> service.addAccount(account),
 				"Mobile number must be 10 digit long");
 
 	}
 
 
 	@Test
-	void updateAccountTest(){
+	void updateAccountTest() {
 
-		account.setAccountNumber(12345678912345L);
+		account.setAccountNumber(12345678912347L);
 		service.addAccount(account);
 		account.setaccountHolderName("Ramesh");
-		Account actual= service.updateAccount(account.getAccountNumber(),account);
-		Account expected=service.getAccountByAccountNumber(account.getAccountNumber());
-		assertEquals(expected,actual);
-		assertThrows(InvalidEntryException.class,()->service.updateAccount(123456789128L,account),"Account number is not valid");
+		Account actual = service.updateAccount(account.getAccountNumber(), account);
+		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
+		assertEquals(expected, actual);
+		assertThrows(InvalidEntryException.class, () -> service.updateAccount(123456789128L, account), "Account number is not valid");
 
 
 	}
 
 	@Test
-	void  getAccountByAccountNumberTest() {
+	void getAccountByAccountNumberTest() {
 		account.setAccountNumber(96993108071234l);
 		service.addAccount(account);
 		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
@@ -114,28 +113,69 @@ class SpringDemoApplicationTests {
 	}
 
 	@Test
+	void deleteaccountByAccountNumberTest() {
+		account.setAccountNumber(12345678901235L);
+		service.addAccount(account);
+		String  actual = service.getAccountByAccountNumber(account.getAccountNumber())+"account deleted";
+		String expected = service.deleteAccount(account.getAccountNumber());
+		//assertThrows(DataNotFoundException.class, () -> service.deleteAccount(12345678912345L), "Invalid entry");
+		assertEquals(expected, actual);
+	}
+
+
+	@Test
 	void controllerAddAccountTest() throws Exception {
-		ObjectMapper objectMapper= new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper();
 		account.setAccountNumber(98765432123456L);
 		this.mockmvc.perform(post("/account/add")
 						.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(account)))
+						.content(objectMapper.writeValueAsString(account)))
 				.andExpect(status().isCreated());
 	}
 
 	@Test
 	void controllerUpdateAccountTest() throws Exception {
-		ObjectMapper objectMapper=new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper();
 		account.setaccountHolderName("Rajesh");
 		account.setAccountBalance(4500000);
 		account.setBranch("mumbai");
 		account.setMobileNumber(1234567899);
 		this.mockmvc.perform(put("/account/update/12345678912345")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(account)))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(account)))
 				.andExpect((status().isOk()));
 	}
 
+	@Test
+	void controllerdeleteAccountTest() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		this.mockmvc.perform(delete("/account/delete/12345678912345")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(account)))
+				.andExpect((status().isAccepted()));
+	}
+
+	@Test
+	void controllergetAllAccountTest() throws Exception {
+		account.setAccountNumber(12345678901234L);
+		service.addAccount(account);
+		this.mockmvc.perform(get("/account/get")
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect((status().isOk()));
+
+	}
+
+	@Test
+
+	void controllergetAccountByAccountNumberTest() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		this.mockmvc.perform(get("/account/get/12345678912345")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(objectMapper.writeValueAsString(account)))
+				.andExpect((status().isFound()));
 
 
+	}
 }
