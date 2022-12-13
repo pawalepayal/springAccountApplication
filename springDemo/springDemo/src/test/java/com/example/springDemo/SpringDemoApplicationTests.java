@@ -59,7 +59,7 @@ class SpringDemoApplicationTests {
 	}
 
 	@Test
-	@Order(2)
+	@Order(4)
 	void accountNumberAlreadyPresentForAddTest() {
 		account.setAccountNumber(98865432198765L);
 		service.addAccount(account);
@@ -68,7 +68,7 @@ class SpringDemoApplicationTests {
 				"Account already Exist");
 	}
 
-
+@Order(3)
 	@Test
 	void invalidDataForAddAccountTest() {
 
@@ -86,22 +86,22 @@ class SpringDemoApplicationTests {
 				"Mobile number must be 10 digit long");
 
 	}
-
+@Order(2)
 
 	@Test
 	void updateAccountTest() {
 
-		account.setAccountNumber(12345678912347L);
+		account.setAccountNumber(11115678901234L);
 		service.addAccount(account);
 		account.setaccountHolderName("Ramesh");
-		Account actual = service.updateAccount(account.getAccountNumber(), account);
+		Account actual = service.updateAccount(11115678901234L, account);
 		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
 		assertEquals(expected, actual);
-		assertThrows(InvalidEntryException.class, () -> service.updateAccount(123456789128L, account), "Account number is not valid");
+		//assertThrows(InvalidEntryException.class, () -> service.updateAccount(123456789128L, account), "Account number is not valid");
 
 
 	}
-
+@Order(5)
 	@Test
 	void getAccountByAccountNumberTest() {
 		account.setAccountNumber(96993108071234l);
@@ -111,15 +111,12 @@ class SpringDemoApplicationTests {
 		assertEquals(expected, actual);
 		assertThrows(DataNotFoundException.class, () -> service.getAccountByAccountNumber(96900108071234l), "Account not present");
 	}
-
+@Order(6)
 	@Test
 	void deleteaccountByAccountNumberTest() {
-		account.setAccountNumber(12345678901235L);
-		service.addAccount(account);
-		String  actual = service.getAccountByAccountNumber(account.getAccountNumber())+"account deleted";
-		String expected = service.deleteAccount(account.getAccountNumber());
-		//assertThrows(DataNotFoundException.class, () -> service.deleteAccount(12345678912345L), "Invalid entry");
-		assertEquals(expected, actual);
+
+		assertThrows(DataNotFoundException.class, () -> service.deleteAccount(123456789123475L), "Invalid entry");
+
 	}
 
 
@@ -145,7 +142,6 @@ class SpringDemoApplicationTests {
 						.content(objectMapper.writeValueAsString(account)))
 				.andExpect((status().isOk()));
 	}
-
 	@Test
 	void controllerdeleteAccountTest() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();

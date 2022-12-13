@@ -79,8 +79,8 @@ public class ServiceImpl implements Service {
             if (account.getAccountNumber() == accountNumber) {
                 accountList.remove(account);
                 break;
-            } else
-                throw new DataNotFoundException("data for this account number not found");
+            } else{
+                throw new DataNotFoundException("data for this account number not found");}
         }
         logger.info("account deleted.");
         return "Deleted successfully";
@@ -92,14 +92,17 @@ public class ServiceImpl implements Service {
         logger.info("method started.");
         for (Account account1 : accountList) {
             if (account1.getAccountNumber() == accountNumber) {
-                account1.setAccountNumber((account.getAccountNumber()));
+                logger.info("update if");
+                account1.setAccountNumber(accountNumber);
                 account1.setaccountHolderName(account.getaccountHolderName());
                 account1.setBranch(account.getBranch());
                 account1.setMobileNumber(account.getMobileNumber());
                 account1.setAccountBalance(account.getAccountBalance());
                 account1.setAccountNumber(accountNumber);
+   //             accountList.add(account);
                 break;
             } else {
+                logger.info("update else");
                 throw new InvalidEntryException("Invalid Account number");
             }
 
