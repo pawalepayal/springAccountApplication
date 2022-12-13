@@ -104,15 +104,15 @@ public class ServiceImpl implements Service {
             }
 
         }
-        logger.info("account updated.");
+        logger.info("account updated."+account);
         return account;
     }
 
-    public void uniqueCheck(long accountNumber){
-        for(Account account: getAllAccounts()){
-            if(account.getAccountNumber()==accountNumber)
-                throw new AccountAlreadyExistException("Account Already Exist");
-        }
-    }
+//    public void uniqueCheck(long accountNumber){
+//        for(Account account: getAllAccounts()){
+//            if(account.getAccountNumber()==accountNumber)
+//                throw new AccountAlreadyExistException("Account Already Exist");
+//        }
+//    }
 
 }
