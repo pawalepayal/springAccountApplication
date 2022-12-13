@@ -1,19 +1,29 @@
 package com.example.springDemo;
 
+import com.example.controller.MyController;
 import com.example.entities.Account;
 import com.example.exception.AccountAlreadyExistException;
 import com.example.exception.DataNotFoundException;
 import com.example.exception.InvalidEntryException;
 import com.example.service.Service;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@AutoConfigureMockMvc
 @SpringBootTest
 class SpringDemoApplicationTests {
 
@@ -21,6 +31,12 @@ class SpringDemoApplicationTests {
 	private Service service;
 
 	Account account;
+
+	@Autowired
+	MockMvc mockmvc;
+
+	@Autowired
+	MyController controller;
 
 	@BeforeEach
 	public void setUp(){
@@ -35,18 +51,17 @@ class SpringDemoApplicationTests {
 
 	@Test
 	@Order(1)
-	void getAddAccountTest(){
-		//Account account= new Account(12345678909875L,"Payal","Pune",9876543212L,250000L);
+	void addAccountTest(){
 		Account actual= service.addAccount(account);
 		Account expected=service.getAccountByAccountNumber(account.getAccountNumber());
 
 		assertEquals(expected,actual);
-		//assertEquals(expected.getAccountBalance(),actual.getAccountBalance());
+
 	}
 
 	@Test
 	@Order(2)
-	void testAccountNumberAlreadyPresentForAdd(){
+	void accountNumberAlreadyPresentForAddTest(){
 	account.setAccountNumber(98865432198765L);
 	service.addAccount(account);
 
@@ -56,7 +71,7 @@ class SpringDemoApplicationTests {
 
 
 	@Test
-	void testInvalidDataForAddAccount(){
+	void invalidDataForAddAccountTest(){
 
 		account.setAccountNumber(567898765432L);  //less than 14 digit
 		assertThrows(InvalidEntryException.class,()->service.addAccount(account),"Account Number must be 14 digt long");
@@ -74,7 +89,6 @@ class SpringDemoApplicationTests {
 	}
 
 
-
 	@Test
 	void updateAccountTest(){
 
@@ -90,13 +104,36 @@ class SpringDemoApplicationTests {
 	}
 
 	@Test
-	void  testGetAccountByAccountNumber() {
+	void  getAccountByAccountNumberTest() {
 		account.setAccountNumber(96993108071234l);
 		service.addAccount(account);
 		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
 		Account actual = service.getAccountByAccountNumber(account.getAccountNumber());
 		assertEquals(expected, actual);
 		assertThrows(DataNotFoundException.class, () -> service.getAccountByAccountNumber(96900108071234l), "Account not present");
+	}
+
+	@Test
+	void controllerAddAccountTest() throws Exception {
+		ObjectMapper objectMapper= new ObjectMapper();
+		account.setAccountNumber(98765432123456L);
+		this.mockmvc.perform(post("/account/add")
+						.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(account)))
+				.andExpect(status().isCreated());
+	}
+
+	@Test
+	void controllerUpdateAccountTest() throws Exception {
+		ObjectMapper objectMapper=new ObjectMapper();
+		account.setaccountHolderName("Rajesh");
+		account.setAccountBalance(4500000);
+		account.setBranch("mumbai");
+		account.setMobileNumber(1234567899);
+		this.mockmvc.perform(put("/account/update/12345678912345")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(account)))
+				.andExpect((status().isOk()));
 	}
 
 
