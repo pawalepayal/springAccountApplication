@@ -88,8 +88,9 @@ public class ServiceImpl implements Service {
     }
 
 
-    public Account updateAccount(long accountNumber, Account account) throws InvalidEntryException {
+    public Account updateAccount(long accountNumber, Account account)  {
         logger.info("method started.");
+         ServiceImpl service=new ServiceImpl();
         for (Account account1 : accountList) {
             if (account1.getAccountNumber() == accountNumber) {
                 logger.info("update if");
@@ -99,11 +100,8 @@ public class ServiceImpl implements Service {
                 account1.setMobileNumber(account.getMobileNumber());
                 account1.setAccountBalance(account.getAccountBalance());
                 account1.setAccountNumber(accountNumber);
-   //             accountList.add(account);
+                service.addAccount(account);
                 break;
-            } else {
-                logger.info("update else");
-                throw new InvalidEntryException("Invalid Account number");
             }
 
         }

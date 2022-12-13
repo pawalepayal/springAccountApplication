@@ -26,20 +26,21 @@ public class MyController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/account/get")
     public List<Account> getAllAccounts() {
+
         return service.getAllAccounts();
     }
 
 
     @ResponseStatus(HttpStatus.FOUND)
     @GetMapping("/account/get/{accountNumber}")
-    public Account getAccountByAccountNumber(@PathVariable long accountNumber) throws InvalidEntryException {
+    public Account getAccountByAccountNumber(@PathVariable long accountNumber) {
 
         return service.getAccountByAccountNumber(accountNumber);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/account/add")
-    public Account addAccount(@RequestBody Account account) throws InvalidEntryException {
+    public Account addAccount(@RequestBody Account account)  {
         return service.addAccount(account);
     }
 

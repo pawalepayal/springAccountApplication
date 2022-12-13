@@ -92,12 +92,13 @@ class SpringDemoApplicationTests {
 	void updateAccountTest() {
 
 		account.setAccountNumber(11115678901234L);
-		service.addAccount(account);
 		account.setaccountHolderName("Ramesh");
-		Account actual = service.updateAccount(11115678901234L, account);
+		service.addAccount(account);
+	//	account.setaccountHolderName("Ramesh");
+		Account actual = service.updateAccount(account.getAccountNumber(),account);
 		Account expected = service.getAccountByAccountNumber(account.getAccountNumber());
-		assertEquals(expected, actual);
-		//assertThrows(InvalidEntryException.class, () -> service.updateAccount(123456789128L, account), "Account number is not valid");
+		assertEquals(expected,actual);
+	//	assertThrows(InvalidEntryException.class, () -> service.updateAccount(123456789128L, account), "Account number is not valid");
 
 
 	}
