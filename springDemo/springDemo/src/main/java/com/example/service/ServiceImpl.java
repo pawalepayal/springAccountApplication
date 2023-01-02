@@ -35,10 +35,8 @@ public class ServiceImpl implements Service {
                 logger.info("Account Found");
                 return account;
             }
-               // throw new InvalidEntryException("Invalid Account Number");
         }
         throw new DataNotFoundException("Account not present");
-       // return account;
     }
 
     @Override
@@ -93,7 +91,7 @@ public class ServiceImpl implements Service {
          ServiceImpl service=new ServiceImpl();
         for (Account account1 : accountList) {
             if (account1.getAccountNumber() == accountNumber) {
-                logger.info("update if");
+               // logger.info("update if");
                 account1.setAccountNumber(accountNumber);
                 account1.setaccountHolderName(account.getaccountHolderName());
                 account1.setBranch(account.getBranch());
@@ -109,11 +107,5 @@ public class ServiceImpl implements Service {
         return account;
     }
 
-//    public void uniqueCheck(long accountNumber){
-//        for(Account account: getAllAccounts()){
-//            if(account.getAccountNumber()==accountNumber)
-//                throw new AccountAlreadyExistException("Account Already Exist");
-//        }
-//    }
 
 }
